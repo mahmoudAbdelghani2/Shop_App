@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/helpers/themes/app_colors.dart';
-import 'package:flutter_application_1/screens/homeScreen.dart';
+import 'package:flutter_application_1/views/screens/mainScreen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -106,9 +106,11 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => const MainScreen(),
+                    ),
+                    (route) => false,
                   );
                 },
                 child: const Text(

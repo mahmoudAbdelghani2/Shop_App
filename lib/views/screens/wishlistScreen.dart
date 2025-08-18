@@ -10,6 +10,17 @@ class WishListScreen extends StatefulWidget {
 class _WishListScreenState extends State<WishListScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Wishlist'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Text(
+          'Your wishlist is empty',
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+    );
   }
 }
