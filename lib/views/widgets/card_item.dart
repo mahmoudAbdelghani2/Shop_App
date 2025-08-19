@@ -77,27 +77,3 @@ class _CardItemState extends State<CardItem> {
     );
   }
 }
-
-
-/*
-IconButton(
-              icon: Icon(
-                item.isAdded ? Icons.shopping_cart : Icons.add_shopping_cart,
-                color: item.isAdded ? Colors.red : Colors.black,
-              ),
-              onPressed: () {
-                final controller = Provider.of<ControllerItem>(
-                  context,
-                  listen: false,
-                );
-                if (item.isAdded) {
-                  controller.removeItem(item);
-                  item.isAdded = false;
-                } else {
-                  if (!controller.items.contains(item)) {
-                    controller.addItem(item);
-                  }
-                  item.isAdded = true;
-                }
-              },
-            ) */

@@ -40,7 +40,6 @@ class GridItem extends StatelessWidget {
                 right: 0,
                 child: Consumer<ControllerItem>(
                   builder: (context, controller, _) {
-                    // **الإصلاح الرئيسي**: تحقق من وجود العنصر في الكنترولر مباشرة
                     final bool isAdded =
                         controller.items.any((cartItem) => cartItem.id == item.id);
 

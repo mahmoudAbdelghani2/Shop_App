@@ -16,7 +16,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: Padding(
-          padding: EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(10.0),
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -25,10 +26,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: 350,
                 height: 350,
                 color: AppColors.backgroundColor,
-                child: Image.asset(
-                  'assets/images/logo.jpeg',
-                  fit: BoxFit.cover,
-                ),
+                child: Image.asset('assets/images/logo.jpeg', fit: BoxFit.cover),
               ),
               const SizedBox(height: 20),
               TextFormField(
@@ -90,26 +88,19 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(color: AppColors.primaryTextColor),
                 cursorColor: Colors.black,
               ),
-
+          
               const SizedBox(height: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.buttonColor,
-                  minimumSize: const Size(
-                    double.infinity,
-                    56,
-                  ),
+                  minimumSize: const Size(double.infinity, 56),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      16,
-                    ),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) => const MainScreen(),
-                    ),
+                    MaterialPageRoute(builder: (context) => const MainScreen()),
                     (route) => false,
                   );
                 },
@@ -122,11 +113,10 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-
+          
               const SizedBox(height: 10),
               TextButton(
-                onPressed: () {
-                },
+                onPressed: () {},
                 child: Text(
                   'Forgot Password?',
                   style: TextStyle(color: AppColors.secondaryTextColor),
@@ -143,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
         ),
+      ),
     );
   }
 }

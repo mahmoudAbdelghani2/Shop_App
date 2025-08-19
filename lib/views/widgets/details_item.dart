@@ -53,14 +53,14 @@ class DetailsItem extends StatelessWidget {
                   style: const TextStyle(fontSize: 14, color: Colors.grey),
                 ),
               ),
-              const Spacer(), // Pushes the button to the bottom
+              const Spacer(),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Consumer<ControllerItem>(
                   builder: (context, controller, child) {
-                    // **الإصلاح الرئيسي**: نتحقق من حالة العنصر من الكنترولر مباشرة
-                    final bool isAdded =
-                        controller.items.any((cartItem) => cartItem.id == item.id);
+                    final bool isAdded = controller.items.any(
+                      (cartItem) => cartItem.id == item.id,
+                    );
 
                     return Center(
                       child: ElevatedButton(
@@ -70,8 +70,6 @@ class DetailsItem extends StatelessWidget {
                           } else {
                             controller.addItem(item);
                           }
-                          // يمكنك إزالة السطر التالي إذا كنت لا تريد إغلاق الصفحة مباشرة
-                          // Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: isAdded ? Colors.red : Colors.green,
@@ -83,7 +81,7 @@ class DetailsItem extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          minimumSize: const Size(double.infinity, 50), // يجعل الزر بعرض الشاشة
+                          minimumSize: const Size(double.infinity, 50),
                         ),
                         child: Text(
                           isAdded ? 'Remove from Cart' : 'Add to Cart',
