@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/bottom-nav_controller.dart';
 import 'package:flutter_application_1/views/screens/loginScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/controllers/item_controller.dart';
-import 'package:flutter_application_1/views/screens/shopScreen.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => ControllerItem(),
+   runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ControllerItem()),
+        ChangeNotifierProvider(create: (_) => BottomNavController()),
+      ],
       child: const MyApp(),
     ),
   );

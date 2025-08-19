@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/bottom-nav_controller.dart';
 import 'package:flutter_application_1/views/screens/cartScreen.dart';
 import 'package:flutter_application_1/views/screens/homeScreen.dart';
 import 'package:flutter_application_1/views/screens/profileScreen.dart';
 import 'package:flutter_application_1/views/screens/shopScreen.dart';
 import 'package:flutter_application_1/views/screens/wishlistScreen.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -13,7 +15,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
+  //int _selectedIndex = 0;
   final List<Widget> _screens = const [
     HomeScreen(),
     ShopScreen(),
@@ -23,8 +25,9 @@ class _MainScreenState extends State<MainScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    final bottomNavController = Provider.of<BottomNavController>(context);
     return Scaffold(
-        body: _screens[_selectedIndex],
+        body: _screens[bottomNavController.index],
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           selectedItemColor: Colors.blue,
@@ -35,12 +38,8 @@ class _MainScreenState extends State<MainScreen> {
           selectedFontSize: 14,
           unselectedFontSize: 12,
           backgroundColor: Colors.white,
-          currentIndex: _selectedIndex,
-          onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
+          currentIndex: bottomNavController.index,
+          onTap: (i) => bottomNavController.setIndex(i),
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.shop), label: 'Shop'),

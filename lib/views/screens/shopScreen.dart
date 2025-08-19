@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/bottom-nav_controller.dart';
 import 'package:flutter_application_1/helpers/themes/app_colors.dart';
 import 'package:flutter_application_1/models/cart_item.dart';
 import 'package:flutter_application_1/views/widgets/grid_item.dart';
+import 'package:provider/provider.dart';
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({super.key});
@@ -13,13 +15,14 @@ class ShopScreen extends StatefulWidget {
 class _ShopScreenState extends State<ShopScreen> {
   int selectedGrid = 0;
   static final List<CartItems> cartItems = CartItems.cartItems;
-  
+
   static final List<CartItems> featuredItems = cartItems
       .where((item) => item.isFeatured!)
       .toList();
-  
+
   static final List<CartItems> newItems = cartItems
-      .where((item) => item.isNew!).toList();
+      .where((item) => item.isNew!)
+      .toList();
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +48,12 @@ class _ShopScreenState extends State<ShopScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: IconButton(
-              icon: const Icon(Icons.search, color: Colors.black),
+              icon: const Icon(Icons.shopping_cart, color: Colors.black),
               onPressed: () {
-                // Implement search functionality
+                Provider.of<BottomNavController>(
+                  context,
+                  listen: false,
+                ).setIndex(3);
               },
             ),
           ),
@@ -66,7 +72,9 @@ class _ShopScreenState extends State<ShopScreen> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: selectedGrid == 0 ? Colors.red : AppColors.secondaryButtonColor,
+                    color: selectedGrid == 0
+                        ? Colors.red
+                        : AppColors.secondaryButtonColor,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: TextButton(
@@ -75,19 +83,24 @@ class _ShopScreenState extends State<ShopScreen> {
                         selectedGrid = 0;
                       });
                     },
-                    child: Text("All", style: TextStyle(color: AppColors.primaryTextColor)),
+                    child: Text(
+                      "All",
+                      style: TextStyle(color: AppColors.primaryTextColor),
+                    ),
                   ),
                 ),
                 SizedBox(width: 10),
                 Container(
                   decoration: BoxDecoration(
-                    color: selectedGrid == 1 ? Colors.red : AppColors.secondaryButtonColor,
+                    color: selectedGrid == 1
+                        ? Colors.red
+                        : AppColors.secondaryButtonColor,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: TextButton(
                     onPressed: () {
                       setState(() {
-                        selectedGrid = 1; 
+                        selectedGrid = 1;
                       });
                     },
                     child: Text(
@@ -99,16 +112,21 @@ class _ShopScreenState extends State<ShopScreen> {
                 SizedBox(width: 10),
                 Container(
                   decoration: BoxDecoration(
-                    color: selectedGrid == 2 ? Colors.red : AppColors.secondaryButtonColor,
+                    color: selectedGrid == 2
+                        ? Colors.red
+                        : AppColors.secondaryButtonColor,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: TextButton(
                     onPressed: () {
                       setState(() {
-                        selectedGrid = 2; 
+                        selectedGrid = 2;
                       });
                     },
-                    child: Text("New", style: TextStyle(color: AppColors.primaryTextColor)),
+                    child: Text(
+                      "New",
+                      style: TextStyle(color: AppColors.primaryTextColor),
+                    ),
                   ),
                 ),
               ],
@@ -118,8 +136,8 @@ class _ShopScreenState extends State<ShopScreen> {
               selectedGrid == 0
                   ? cartItems
                   : selectedGrid == 1
-                      ? featuredItems
-                      : newItems,
+                  ? featuredItems
+                  : newItems,
             ),
           ],
         ),
@@ -145,6 +163,7 @@ Widget _serchBar() {
     cursorColor: Colors.black,
   );
 }
+
 Widget _gridView(List<CartItems> items) {
   return Expanded(
     child: GridView.builder(

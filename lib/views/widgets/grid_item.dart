@@ -5,23 +5,21 @@ import 'package:flutter_application_1/models/cart_item.dart';
 import 'package:flutter_application_1/views/widgets/details_item.dart';
 import 'package:provider/provider.dart';
 
-class GridItem extends StatefulWidget {
+class GridItem extends StatelessWidget {
   final CartItems item;
   const GridItem({super.key, required this.item});
-  @override
-  State<GridItem> createState() => _GridItemState();
-}
 
-class _GridItemState extends State<GridItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => DetailsItem(item: widget.item)),
+          MaterialPageRoute(
+            builder: (context) => DetailsItem(item: item),
+          ),
         );
       },
-       child: Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
@@ -31,7 +29,7 @@ class _GridItemState extends State<GridItem> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(widget.item.imageUrl!),
+                    image: AssetImage(item.imageUrl!),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(12),
@@ -40,33 +38,37 @@ class _GridItemState extends State<GridItem> {
               Positioned(
                 top: 0,
                 right: 0,
-                child: IconButton(
-                  icon: Icon(
-                    widget.item.isAdded ? Icons.shopping_cart : Icons.add_shopping_cart,
-                    color: widget.item.isAdded ? Colors.red : Colors.black,
-                  ),
-                  onPressed: () {
-                    final controller = Provider.of<ControllerItem>(context, listen: false);
-                    setState(() {
-                      widget.item.isAdded = !widget.item.isAdded;
-                      if (widget.item.isAdded) {
-                        controller.addItem(widget.item);
-                      } else {
-                        controller.removeItem(widget.item);
-                      }
-                    });
+                child: Consumer<ControllerItem>(
+                  builder: (context, controller, _) {
+                    // **الإصلاح الرئيسي**: تحقق من وجود العنصر في الكنترولر مباشرة
+                    final bool isAdded =
+                        controller.items.any((cartItem) => cartItem.id == item.id);
+
+                    return IconButton(
+                      icon: Icon(
+                        isAdded ? Icons.shopping_cart : Icons.add_shopping_cart,
+                        color: isAdded ? Colors.red : Colors.black,
+                      ),
+                      onPressed: () {
+                        if (isAdded) {
+                          controller.removeItem(item);
+                        } else {
+                          controller.addItem(item);
+                        }
+                      },
+                    );
                   },
                 ),
               ),
             ],
           ),
           Text(
-            widget.item.name!,
+            item.name!,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 4),
           Text(
-            '\$${widget.item.price!.toStringAsFixed(2)}',
+            '\$${item.price!.toStringAsFixed(2)}',
             style: TextStyle(fontSize: 14, color: AppColors.secondaryTextColor),
           ),
         ],

@@ -1,88 +1,103 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/item_controller.dart';
+import 'package:flutter_application_1/helpers/themes/app_colors.dart';
 import 'package:flutter_application_1/models/cart_item.dart';
 import 'package:provider/provider.dart';
 
-class DetailsItem extends StatefulWidget {
+class DetailsItem extends StatelessWidget {
   final CartItems item;
   const DetailsItem({super.key, required this.item});
 
   @override
-  State<DetailsItem> createState() => _DetailsItemState();
-}
-
-class _DetailsItemState extends State<DetailsItem> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.item.name!),
-        centerTitle: true,
-      ),
-      body:Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.asset(
-              widget.item.imageUrl!,
-              fit: BoxFit.cover,
-              height: 300,
-              width: double.infinity,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                widget.item.name!,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+      backgroundColor: AppColors.backgroundColor,
+      appBar: AppBar(title: Text(item.name!), centerTitle: true),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          color: AppColors.backgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset(
+                item.imageUrl!,
+                fit: BoxFit.cover,
+                height: 300,
+                width: double.infinity,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(
-                '\$${widget.item.price}',
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.green,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                widget.item.description!,
-                style: const TextStyle(fontSize: 14, color: Colors.grey),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  final controller = Provider.of<ControllerItem>(context, listen: false);
-                  controller.addItem(widget.item);
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  item.name!,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                child: const Text('Add to Cart'),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  '\$${item.price}',
+                  style: const TextStyle(fontSize: 16, color: Colors.green),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  item.description!,
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+              ),
+              const Spacer(), // Pushes the button to the bottom
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Consumer<ControllerItem>(
+                  builder: (context, controller, child) {
+                    // **الإصلاح الرئيسي**: نتحقق من حالة العنصر من الكنترولر مباشرة
+                    final bool isAdded =
+                        controller.items.any((cartItem) => cartItem.id == item.id);
+
+                    return Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (isAdded) {
+                            controller.removeItem(item);
+                          } else {
+                            controller.addItem(item);
+                          }
+                          // يمكنك إزالة السطر التالي إذا كنت لا تريد إغلاق الصفحة مباشرة
+                          // Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: isAdded ? Colors.red : Colors.green,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 20,
+                          ),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          minimumSize: const Size(double.infinity, 50), // يجعل الزر بعرض الشاشة
+                        ),
+                        child: Text(
+                          isAdded ? 'Remove from Cart' : 'Add to Cart',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }

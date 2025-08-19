@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_application_1/controllers/item_controller.dart';
 import 'package:flutter_application_1/helpers/themes/app_colors.dart';
 import 'package:flutter_application_1/models/cart_item.dart';
+import 'package:lottie/lottie.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -38,32 +39,95 @@ class _CartScreenState extends State<CartScreen> {
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: items.isEmpty
-            ? const Center(
-                child: Text(
-                  'Your cart is empty',
-                  style: TextStyle(fontSize: 24),
+            ? Center(
+                child: Column(
+                  children: [
+                    Lottie.asset(
+                      'assets/lottie/NoDataFound.json',
+                      width: 400,
+                      height: 400,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Your cart is empty! \nGo and add some items!',
+                      style: TextStyle(fontSize: 24),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               )
-            : ListView.separated(
-                itemCount: items.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 10),
-                itemBuilder: (context, index) {
-                  final item = items[index];
-                  return Dismissible(
-                    key: ValueKey(item.id),
-                    direction: DismissDirection.endToStart,
-                    background: Container(
-                      alignment: Alignment.centerRight,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      color: Colors.red,
-                      child: const Icon(Icons.delete, color: Colors.white),
+            : Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: CardItem(item: item),
+                        );
+                      },
                     ),
-                    onDismissed: (_) {
-                      controller.removeItem(item);
+                  ),
+
+                  const SizedBox(height: 10),
+                  Consumer<ControllerItem>(
+                    builder: (context, controller, child) {
+                      return ListTile(
+                        contentPadding: const EdgeInsets.all(16.0),
+                        title: Text(
+                          "Subtotal: \$${controller.subtotal.toStringAsFixed(2)}",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Text(
+                          "Taxes: \$${controller.totalTax.toStringAsFixed(2)}",
+                          style: const TextStyle(fontSize: 13),
+                        ),
+                        trailing: Text(
+                          "\$${controller.total.toStringAsFixed(2)}",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
                     },
-                    child: CardItem(item: item),
-                  );
-                },
+                  ),
+
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        controller.clearItems();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('Checkout successful!'),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.buttonColor,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      child: const Text(
+                        'Proceed to Checkout',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
       ),
     );
