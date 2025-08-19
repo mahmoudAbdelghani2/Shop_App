@@ -32,6 +32,12 @@ class _CartScreenState extends State<CartScreen> {
               icon: const Icon(Icons.delete_forever, color: Colors.black),
               onPressed: () {
                 controller.clearItems();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Cart cleared!'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
               },
             ),
         ],
