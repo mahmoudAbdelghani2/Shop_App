@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/item_controller.dart';
 import 'package:flutter_application_1/helpers/themes/app_colors.dart';
 import 'package:flutter_application_1/models/cart_item.dart';
-import 'package:flutter_application_1/views/widgets/details_item.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class GridItem extends StatelessWidget {
@@ -13,11 +13,7 @@ class GridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => DetailsItem(item: item),
-          ),
-        );
+         context.push('/item-details/${item.id}', extra: item);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +42,7 @@ class GridItem extends StatelessWidget {
                     return IconButton(
                       icon: Icon(
                         isAdded ? Icons.shopping_cart : Icons.add_shopping_cart,
-                        color: isAdded ? Colors.red : Colors.black,
+                        color: isAdded ? Colors.blue : Colors.black,
                       ),
                       onPressed: () {
                         if (isAdded) {

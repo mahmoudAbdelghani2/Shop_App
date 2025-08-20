@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controllers/item_controller.dart';
 import 'package:flutter_application_1/helpers/themes/app_colors.dart';
 import 'package:flutter_application_1/models/cart_item.dart';
-import 'package:flutter_application_1/views/widgets/details_item.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class CardItem extends StatefulWidget {
@@ -15,14 +15,10 @@ class CardItem extends StatefulWidget {
 
 class _CardItemState extends State<CardItem> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {//DetailsItem(item: widget.item)
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => DetailsItem(item: widget.item),
-          ),
-        );
+         context.push('/item-details/${widget.item.id}', extra: widget.item);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

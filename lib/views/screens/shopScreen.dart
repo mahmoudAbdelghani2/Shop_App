@@ -73,7 +73,7 @@ class _ShopScreenState extends State<ShopScreen> {
                 Container(
                   decoration: BoxDecoration(
                     color: selectedGrid == 0
-                        ? Colors.red
+                        ? Colors.black
                         : AppColors.secondaryButtonColor,
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -85,7 +85,11 @@ class _ShopScreenState extends State<ShopScreen> {
                     },
                     child: Text(
                       "All",
-                      style: TextStyle(color: AppColors.primaryTextColor),
+                      style: TextStyle(
+                        color: selectedGrid == 0
+                            ? Colors.white
+                            : AppColors.primaryTextColor,
+                      ),
                     ),
                   ),
                 ),
@@ -93,7 +97,7 @@ class _ShopScreenState extends State<ShopScreen> {
                 Container(
                   decoration: BoxDecoration(
                     color: selectedGrid == 1
-                        ? Colors.red
+                        ? Colors.black
                         : AppColors.secondaryButtonColor,
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -105,7 +109,11 @@ class _ShopScreenState extends State<ShopScreen> {
                     },
                     child: Text(
                       "Featured",
-                      style: TextStyle(color: AppColors.primaryTextColor),
+                      style: TextStyle(
+                        color: selectedGrid == 1
+                            ? Colors.white
+                            : AppColors.primaryTextColor,
+                      ),
                     ),
                   ),
                 ),
@@ -113,7 +121,7 @@ class _ShopScreenState extends State<ShopScreen> {
                 Container(
                   decoration: BoxDecoration(
                     color: selectedGrid == 2
-                        ? Colors.red
+                        ? Colors.black
                         : AppColors.secondaryButtonColor,
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -125,7 +133,11 @@ class _ShopScreenState extends State<ShopScreen> {
                     },
                     child: Text(
                       "New",
-                      style: TextStyle(color: AppColors.primaryTextColor),
+                      style: TextStyle(
+                        color: selectedGrid == 2
+                            ? Colors.white
+                            : AppColors.primaryTextColor,
+                      ),
                     ),
                   ),
                 ),
